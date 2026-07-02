@@ -1,0 +1,8 @@
+[10:00 AM] Alice texted Bob: "Did you remember to lock the vault? I'm taking the keys with me to the meeting."
+[10:05 AM] Security Log: Vault door closed.
+[10:30 AM] Bob texted Charlie: "Alice took the main keys, but I still have the spare in my desk. Let's grab the diamond before she gets back."
+[10:35 AM] Janitor Log: Cleaned Bob's office. Found a spare vault key on the desk. Took it to Lost and Found.
+[11:00 AM] Security Log: Vault door opened using a spare key.
+[11:05 AM] Charlie texted Bob: "Where is the key?! Your desk is empty!"
+[11:15 AM] Lost and Found Log: Dave from accounting claimed a key, said it was for his locker.
+[11:30 AM] Security Log: Dave seen leaving the building with a suspicious bulge in his briefcase.
