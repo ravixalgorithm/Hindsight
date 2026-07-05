@@ -46,12 +46,17 @@ const CONTENT = {
     { label: "Two modes", href: "#modes" },
     { label: "The proof", href: "#proof" },
     { label: "Open source", href: "#opensource" },
+    { label: "GitHub ↗", href: "https://github.com/ravixalgorithm/Hindsight", external: true },
     { label: "Cognee ↗", href: "https://www.cognee.ai", external: true },
   ],
   badge: "Graph memory, reconstructed",
   headline: "The memory that connects the dots you don’t remember.",
   subhead:
     "Vector search finds the sentence closest to your question. Chow finds the answer that isn’t in any single one — by walking the graph between fragments.",
+  runLocallyNote:
+    "This runs on a self-hosted Cognee engine, not a hosted cloud API — the box below only works when you've cloned the repo and started it yourself.",
+  runLocallyCta: "Get the code + setup ↗",
+  runLocallyHref: "https://github.com/ravixalgorithm/Hindsight",
   inputPlaceholder: "Paste evidence, drop a file, or a URL…",
   panelBadge: "Powered by Cognee",
   sequence: [
@@ -146,7 +151,7 @@ const CONTENT = {
   ossContribution:
     "And we're giving back: cognee-onto — an open-source ingestion adapter any Cognee user can drop in for clean, trust-scored web intake.",
   closingHeadline: "Not a memory that stores. A memory that connects.",
-  closingCta: "Start reconstructing ↑",
+  closingCta: "Get the code + run it ↗",
   modesEyebrow: "One engine, two doors in",
   modesHeadline: "Same graph. Different evidence.",
   modeCards: [
@@ -494,6 +499,23 @@ export default function LandingPage() {
               <p className="mt-3 max-w-[44ch] text-[16px] leading-[1.5] tracking-[-0.16px] text-black/60">
                 {CONTENT.subhead}
               </p>
+            </div>
+
+            {/* honest framing: no hosted backend on this deployment — the
+                engine is self-hosted Cognee, meant to be run locally */}
+            <div className="flex w-full items-start gap-3 rounded-[10px] border border-[#ebebeb] bg-[#fafafa] p-4">
+              <Sparkles className="mt-0.5 size-4 shrink-0 text-black/40" />
+              <div className="flex flex-col gap-1.5">
+                <p className="text-[13px] leading-[1.5] text-black/60">{CONTENT.runLocallyNote}</p>
+                <a
+                  href={CONTENT.runLocallyHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-fit text-[13px] font-medium text-black underline decoration-black/20 underline-offset-2 hover:decoration-black/50"
+                >
+                  {CONTENT.runLocallyCta}
+                </a>
+              </div>
             </div>
 
             {/* input card */}
@@ -1020,13 +1042,14 @@ export default function LandingPage() {
           >
             {CONTENT.closingHeadline}
           </h2>
-          <button
-            type="button"
-            onClick={() => inputCardRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })}
+          <a
+            href={CONTENT.runLocallyHref}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-2 border border-black/[0.08] bg-[#121212] px-6 py-3 text-[14px] font-medium text-white transition-colors hover:bg-black"
           >
             {CONTENT.closingCta}
-          </button>
+          </a>
         </section>
 
         {/* footer */}

@@ -6,6 +6,8 @@ Chow ingests scattered, messy sources and builds them into a **Cognee knowledge 
 
 Built for Cognee's "Where's My Context?" hackathon, targeting **Best Use of Open Source**: the whole engine runs on **self-hosted OSS Cognee** (Docker or a local venv, not Cognee Cloud), with a custom ontology, a custom pipeline Task, and an open-source ingestion package (`cognee-onto/`) contributed alongside it.
 
+> **No hosted backend.** `cognee-service` is a stateful Python process (self-hosted Cognee, embedded graph/vector stores) — it doesn't fit free serverless/PaaS tiers (Vercel functions are stateless Node.js; Render/Railway/Fly's free RAM allocations crash under real cognify/search load). The engine is meant to be **run locally** — see below — that's the actual, working demo.
+
 ---
 
 ## The problem
