@@ -1,5 +1,10 @@
 # CHOW 🧠🕵️‍♂️
 
+![cognee](https://img.shields.io/badge/cognee-self--hosted%20OSS-6b5b95)
+![license](https://img.shields.io/badge/license-MIT-blue)
+![cognee--onto](https://img.shields.io/badge/cognee--onto-open--source%20package-brightgreen)
+![status](https://img.shields.io/badge/status-hackathon%20build-orange)
+
 > *"Your AI woke up on the roof with no memory of last night. Chow connects the dots you don't remember."*
 
 Chow ingests scattered, messy sources and builds them into a **Cognee knowledge graph**, then answers questions whose answers aren't contained in any single source — by traversing the connections between facts instead of retrieving the most similar chunk. That's the difference between vector RAG and graph RAG, made visible on one screen.
@@ -48,6 +53,54 @@ Next.js (App Router) ── HTTP ──> cognee-service (FastAPI, self-hosted OS
 - **`src/`** — the Next.js app: ingest UI, force-graph visualizer (trust-tinted nodes), the split-screen "vector vs. graph" ask interface, and the memory dashboard (`memify` / `forget`).
 
 No external database account is required — session history lives in a sqlite file next to Cognee's own storage, so the whole stack is self-hosted end to end.
+
+---
+
+## `cognee-onto` — the open-source contribution
+
+Hindsight ships more than a demo — it ships **[`cognee-onto`](./cognee-onto)**,
+a standalone, independently-installable Python package that any Cognee user
+can adopt, not just Hindsight's own code.
+
+**The problem it solves:** Cognee builds its graph by running an LLM
+extraction pass over whatever text you give `cognee.add()`. Point that at a
+raw scraped webpage and it will happily extract nodes like `"Accept
+Cookies"`, `"Subscribe to our newsletter"`, and `"© 2026 All rights
+reserved"` — junk that poisons every future traversal. A graph is only as
+good as the text you feed it, and Cognee has no opinion on how you clean
+that text or what happens to metadata (like a trust score) you'd want to
+carry through.
+
+**What it does:** wraps [Onto's](https://buildonto.dev) `read_and_score` API
+as a real Cognee pipeline `Task` (via `cognee.run_custom_pipeline()`, not a
+pre-processing call bolted on before `add()`), so every URL becomes clean
+Markdown **and** a 0–100 trust score written directly onto the resulting
+graph node — persisted through Cognee's own `add_data_points` storage
+primitive, the same mechanism Cognee's own pipeline stages use.
+
+```python
+import cognee
+from cognee_onto import build_onto_intake_pipeline
+
+await cognee.run_custom_pipeline(
+    tasks=build_onto_intake_pipeline(),
+    data=["https://example.com/some-article"],
+    dataset="my_dataset",
+)
+```
+
+**Use cases beyond this hackathon:** research assistants that need to weigh
+official docs against random blog posts; competitive intelligence pipelines
+pulling in competitor sites; support-KB ingestion that distinguishes official
+articles from forum answers; any Cognee pipeline that touches the open web
+instead of pre-cleaned files.
+
+It's dogfooded here — `cognee-service`'s Research mode ingest goes through
+this exact package (see `cognee-service/app/tasks.py`) — and ships with its
+own test suite (8 tests, no network calls needed) and install path
+independent of the rest of this repo. Full docs, API reference, and the
+"why a Task and not a pre-processing call" rationale live in
+**[`cognee-onto/README.md`](./cognee-onto/README.md)**.
 
 ---
 

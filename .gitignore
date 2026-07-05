@@ -57,3 +57,4 @@ __pycache__/
 # ignored per user request
 CLAUDE.md
 AGENTS.md
+DEMO_SCRIPT.md
