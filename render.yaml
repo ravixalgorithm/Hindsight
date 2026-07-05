@@ -12,12 +12,17 @@ services:
         value: gpt-5.4-mini
       - key: LLM_API_KEY
         sync: false
+      # fastembed loads a local ONNX model into process memory -- fine
+      # locally, but it's what pushed the free Render instance (512MB) over
+      # the edge under real request load (502s that only appeared once
+      # cognify actually ran, not on /health). Routing embeddings through
+      # OpenAI's API instead removes that in-process model entirely.
       - key: EMBEDDING_PROVIDER
-        value: fastembed
+        value: openai
       - key: EMBEDDING_MODEL
-        value: sentence-transformers/all-MiniLM-L6-v2
+        value: text-embedding-3-small
       - key: EMBEDDING_DIMENSIONS
-        value: "384"
+        value: "1536"
       - key: GRAPH_DATABASE_PROVIDER
         value: ladybug
       - key: VECTOR_DB_PROVIDER
